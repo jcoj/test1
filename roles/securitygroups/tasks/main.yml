@@ -17,7 +17,7 @@
     region: "{{ ec2_region }}"
     vpc_id: "{{ vpc_info.vpc.id }}"
     name: "{{ environment_name}}-ec2"
-    description: "open port 22 to a trusted ip and por 80 to elb group"
+    description: "open port 22 ,80 ,3306"
     tags: 
       "Name": "{{environment_name}}-ec2"
       "Environment": "{{ environment_name}}"
