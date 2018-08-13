@@ -25,7 +25,7 @@ AWS_SECRET_ACCESS_KEY and AWS_SECRET_ACCESS_KEY
  
 **** HOW TO RUN *****
 
-One easy way to test is using the one ansible Container.
+One easy way to test is using one ansible Container.
 It is a very simple container with ansible installation and some python modules
 required to run the playbook, so you don't need to setup your environment.
 
