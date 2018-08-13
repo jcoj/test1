@@ -4,7 +4,7 @@ Will create the following resources on AWS:
 VPC ,Subnet, Security groups, Routing tables, EC2 instance running CentOS 7 linux,
 and will provision one docker container running MariaDB database.
 
-PRE-REQUISITES
+*** PRE-REQUISITES ***
 
 Ansible 2.5.0
   config file = /etc/ansible/ansible.cfg
@@ -21,11 +21,22 @@ botocore (1.10.75)
 
 Before you run, you need to export these variables:
 
-AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID.
+AWS_SECRET_ACCESS_KEY and AWS_SECRET_ACCESS_KEY
  
-HOW TO RUN
+**** HOW TO RUN *****
 
-inside the project folder
+One easy way to test is using the one ansible Container.
+It is a very simple container with ansible installation and some python modules
+required to run the playbook, so you don't need to setup your environment.
+
+Download the DockerFile:
+
+docker build -t ansible_test .
+docker run -it ansible_test /bin/bash 
+
+export AWS_SECRET_ACCESS_KEY= " "
+export AWS_ACCESS_KEY_ID= " "
+
 ./run.sh
 
  
