@@ -1,4 +1,9 @@
 Role Name
 ========
 
-Gateway creation
+gateway
+
+Create gateway on aws.
+
+Variable
+---------
