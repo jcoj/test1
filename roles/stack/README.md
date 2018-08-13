@@ -1,11 +1,12 @@
 Role Name
 =========
-Stacks , contains packages that will be installed.
+stacks 
+contains packages that will be installed.
 
-variables
-
+Variables
+---------
 packages:
 prerequisites_packages:
 
-var directory contains an crypted file, secrets.yml 
+VAR directory contains an crypted file, secrets.yml used to hide database credentials. 
 
