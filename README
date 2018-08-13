@@ -23,7 +23,8 @@ Before you run, you need to export these variables:
 AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID.
 
 There is a file, .aws_credential that contains one credential that can be used
-to test the playbook. It will be disable in one day.
+to test the playbook. 
+I can share for tests.
  
 HOW TO RUN
 
