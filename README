@@ -29,9 +29,12 @@ One easy way to test is using one ansible Container.
 It is a very simple container with ansible installation and some python modules
 required to run the playbook, so you don't need to setup your environment.
 
-Download the DockerFile:
+Download the Dockerfile:
 
+Create an image from Dockerfile:
 docker build -t ansible_test .
+
+Run the conteiner:
 docker run -it ansible_test /bin/bash 
 
 export AWS_SECRET_ACCESS_KEY= " "
