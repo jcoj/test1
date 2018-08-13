@@ -1,5 +1,5 @@
 Ansible playbook 
-create the following resources on AWS:
+Will create the following resources on AWS:
 VPC ,Subnet, Security groups, Routing tables, EC2 instance running CentOS 7 linux,
 and will provision one docker container running MariaDB database.
 
