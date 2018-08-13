@@ -8,5 +8,5 @@ Variables
 packages:
 prerequisites_packages:
 
-VAR directory contains an crypted file, secrets.yml used to hide database credentials. 
+VAR directory contains crypted file, secrets.yml used to hide database credentials. 
 
