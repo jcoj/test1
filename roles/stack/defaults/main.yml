@@ -1,0 +1,19 @@
+---
+# defaults file for stack
+
+repo_packages:
+  - "epel-release"
+  - "https://centos7.iuscommunity.org/ius-release.rpm"
+
+prerequisites_packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2  
+  - python-pip 
+
+docker_repo:
+  name: docker
+  description: docker repository
+  baseurl: "https://download.docker.com/linux/centos/docker-ce.repo"
+  gpgcheck: no 
+  enabled: yes

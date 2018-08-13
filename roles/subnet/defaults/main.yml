@@ -1,0 +1,5 @@
+---
+# defaults file for subnet
+the_subnets:
+  - { use: 'ec2', az: 'a', subnet: '10.0.10.0/24' }
+ 

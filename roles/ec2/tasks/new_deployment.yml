@@ -1,0 +1,75 @@
+- name: search for all of the AMI in the defined region 
+  ec2_ami_facts:
+    region: "{{ ec2_region }}"
+    owners: "{{ image.owner}}"
+    filters:
+      name: "{{ image.base }}"
+      architecture: "{{ image.architecture }}"
+      root-device-type: "{{ image.root_device }}"
+  register: amiFind
+
+- name: Filter the list of Amis to find the last one with and EBS 
+  set_fact:
+    amiSortFilter: "{{ amiFind.images | sort (attribute='creation_date') | last }}"
+
+- name: Get the ID the most recent result
+  set_fact:
+    our_ami_id: "{{ amiSortFilter.image_id }}"
+
+- name: check the user {{ ansible_user_id }} has a key, if not create one
+  user:
+    name: "{{ ansible_user_id }}"
+    generate_ssh_key: yes
+    ssh_key_file: "~/.ssh/id_rsa"
+
+- name: upload the public key
+  ec2_key:
+    region: "{{ ec2_region }}"
+    name: "{{ environment_name}}{{ ansible_user_id }}"
+    key_material: "{{ item }}"
+  with_file: "~/.ssh/id_rsa.pub"
+
+- name: lauch an instance
+  ec2_instance: 
+    region: "{{ ec2_region }}"
+    state: present
+    instance_type: "{{ ec2_instance_type }}"
+    image_id: ami-9887c6e7
+    wait: yes
+    key_name: "{{ environment_name }}{{ ansible_user_id }}"
+    security_groups : ["{{ sg_ec2.group_id }}"]
+    network:
+      assign_public_ip: true
+    filters:
+      instance-state-name: "running"
+      "tag:Name": "{{ environment_name }}-tmp"
+      "tag:environment": "{{ environment_name }}"
+    vpc_subnet_id: "{{ subnets_ec2_ids[0] }}"
+    tags:
+      Name: "{{ environment_name }}-tmp"
+      environment: "{{ environment_name }}"
+  register: ec2   
+
+- name: Add all instance public IPs to host group
+  add_host: hostname={{ item.public_ip_address }} groups=ec2hosts
+  loop: "{{ ec2.instances }}"
+
+- name: gather facts on launched instance using AWS API
+  ec2_instance_facts:
+    region: "{{ ec2_region}}"
+    filters:
+      instance-state-name: "running"
+      "tag:Name": "{{ environment_name }}-tmp"
+      "tag:environment": "{{ environment_name }}"
+  register: singleinstance 
+
+- name: Get public ip from instance
+  set_fact:
+    ec2_public_ip: "{{ singleinstance.instances| map(attribute='public_ip_address') | list }}"
+  register: ec2_public_ip
+   
+- name: ssh string
+  debug:
+    msg: "ssh centos@{{item.public_ip_address}}"
+  with_items: "{{ singleinstance.instances }}"
+  

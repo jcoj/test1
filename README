@@ -1,0 +1,33 @@
+This playbook will create the following resources on AWS:
+
+VPC ,Subnet, Security groups, Routing tables, EC2 instance running CentOS 7 linux,
+and will provision one docker container running MariaDB database.
+
+PRE-REQUISITES
+
+Ansible 2.5.0
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 2.7.5 (default, Aug  4 2017, 00:39:18) [GCC 4.8.5 20150623 (Red Hat 4.8.5-16)]
+
+PYTHON LIBS:
+
+boto (2.49.0)
+boto3 (1.7.75)
+botocore (1.10.75)
+
+Before you run, you need to export these variables:
+
+AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID.
+
+There is a file, .aws_credential that contains one credential that can be used
+to test the playbook. It will be disable in one day.
+ 
+HOW TO RUN
+
+inside the project folder
+./run.sh
+
+ 

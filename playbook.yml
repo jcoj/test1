@@ -1,0 +1,24 @@
+- name: Create and configure an Amazon VPC
+  hosts: localhost 
+  connection: local 
+  gather_facts: True
+
+  vars_files:
+    - group_vars/common.yml
+
+  roles:
+    - roles/vpc
+    - roles/subnet
+    - roles/gateway
+    - roles/securitygroups
+    - roles/ec2
+    
+  
+- name: Play
+  hosts: ec2hosts
+  remote_user: centos
+  become: true
+  become_method: sudo
+  roles:
+  
+    - roles/stack    

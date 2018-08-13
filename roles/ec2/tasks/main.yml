@@ -1,0 +1,4 @@
+---
+# tasks file for ec2
+- name: run new deployment
+  include_tasks: "new_deployment.yml"

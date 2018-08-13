@@ -1,0 +1,49 @@
+---
+# tasks file for securitygroups
+- name: find out our public ip 
+  ipify_facts:
+  register: public_ip
+
+- name: set your public ip as fact
+  set_fact:
+    your_public_ip: "{{ public_ip.ansible_facts.ipify_public_ip }}/32"
+
+- name: print your public ip address
+  debug:
+    msg: "Your public IP address is {{ your_public_ip }}"
+
+- name: provision ec2 security group
+  ec2_group:
+    region: "{{ ec2_region }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    name: "{{ environment_name}}-ec2"
+    description: "open port 22 to a trusted ip and por 80 to elb group"
+    tags: 
+      "Name": "{{environment_name}}-ec2"
+      "Environment": "{{ environment_name}}"
+    rules:
+     - proto: "tcp"
+       from_port: "22"
+       to_port: "22"
+       cidr_ip: "{{ your_public_ip }}"
+       rule_desc: "allow {{ your_public_ip }} access to port 22"
+    
+     - proto: "tcp"
+       from_port: "80"
+       to_port: "80"
+       cidr_ip: "0.0.0.0/0"
+       rule_desc: "allow  access to port 80"
+
+     - proto: "tcp"
+       from_port: "3306"
+       to_port: "3306"
+       cidr_ip: "0.0.0.0/0"
+       rule_desc: "allow  access to port 3306"
+
+     - proto: "tcp"
+       from_port: "443"
+       to_port: "443"
+       cidr_ip: "0.0.0.0/0"
+       rule_desc: "allow  access to port 80"
+
+  register: sg_ec2

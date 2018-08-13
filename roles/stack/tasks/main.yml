@@ -1,0 +1,60 @@
+---
+# tasks file for stack   
+
+- name: install the repo packages
+  yum:
+    name: "{{ item }}"
+    state: "installed"
+  with_items: "{{ repo_packages }}"
+  became: true
+
+- name: install the packages
+  yum: 
+    name: "{{ item }}"
+    state: "installed"
+  with_items: "{{ prerequisites_packages }}"
+  became: true
+
+- name: Installing docker-py library -  pip module
+  pip:
+    name: docker-py
+
+- name: installing Docker 
+  yum:
+    name: docker
+    update_cache: yes
+    state: present
+  became: true
+
+- name: Create a Docker group
+  group: name=docker state=present
+
+- name: Starting and Enabling Docker service"
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  became: true
+
+- name: Add centos user to Docker group
+  user: 
+    name=centos 
+    groups=docker 
+    append=yes
+
+- name : Including vars
+  include_vars: secret.yml
+
+- name: Running MariaDB Container
+  docker_container:
+     name: instance_mariadb
+     image: mariadb:10.2.14
+     state: started
+     restart_policy: always
+     ports:
+       - "3306:3306"
+     env:
+       MYSQL_ROOT_PASSWORD: "{{user_password}}"
+       MYSQL_USER: "{{user_password}}"
+       MYSQL_PASSWORD: "{{user_db}}"
+
