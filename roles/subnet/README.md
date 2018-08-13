@@ -1,5 +1,8 @@
 Role Name
 =========
-Subnet creation.
+Subnet 
+Create subnet on aws.
 
+Variables
+---------
 the_subnets: variable to set the subnets inside VPC.
